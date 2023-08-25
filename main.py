@@ -1,4 +1,5 @@
 from ebay import *
+from monsterax import *
 # from matplotlib import pyplot as plt
 
 # todo: walmart, amazon
@@ -7,17 +8,30 @@ from ebay import *
 # removed graphing for now
 
 def main():
-  query = input("Enter a search term: ")
-  numresults = int(input("\nHow many results: "))
-  results = ebay_search(query, numresults)
+  query = 'florida beauty' # input("Enter a search term: ")
+  numresults = 5 # int(input("\nHow many results: "))
+  r1 = numresults
+  r2 = numresults
+  
+  ebay_results = ebay_search(query, numresults)
+  monsterax_results = monsterax_search(query, numresults, True)
+  
+  if numresults > len(ebay_results[0]):
+    r1 = len(ebay_results[0])
+  elif numresults > len(monsterax_results[0]):
+    r2 = len(monsterax_results[0])
 
-  if numresults > len(results[0]):
-    numresults = len(results[0])
-  for i in range(numresults):
-    print(results[0][i])
-  print(results[1])
+  print("eBay results:\n")
+  for i in range(r1):
+    print(ebay_results[0][i])
+  print(ebay_results[1])
+  print(f"results shown: {r1}")
 
-  print(f"\nresults shown: {numresults}")
+  print("\nMonsteraX results:\n")
+  for i in range(r2):
+    print(monsterax_results[0][i])
+  print(monsterax_results[1])
+  print(f"results shown: {r2}")
 
 if __name__ == "__main__":
   main()

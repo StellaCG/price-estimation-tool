@@ -3,6 +3,8 @@ import requests
 import locale
 from datetime import datetime
 
+from pricesummary import *
+
 locale.setlocale(locale.LC_NUMERIC, 'en_US.UTF-8')
 
 
@@ -15,18 +17,6 @@ class Listing:
 
   def __str__(self):
     return f"{self.name}\t({self.price} sold {self.date} ago)"
-
-
-class PriceSummary:
-
-  def __init__(self, avg, min, max):
-    self.avg = avg
-    self.min = min
-    self.max = max
-
-  def __str__(self):
-    return f"\naverage price: {self.avg}\nlowest price: {self.min}\nhighest price: {self.max}"
-
 
 # query = "alocasia azlanii"
 def ebay_search(query, MAX_RESULTS):
