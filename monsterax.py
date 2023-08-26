@@ -3,18 +3,9 @@ import requests
 import locale
 import re
 
-from pricesummary import *
+from helpers import *
 
 locale.setlocale(locale.LC_NUMERIC, 'en_US.UTF-8')
-
-class MonsteraxListing:
-
-  def __init__(self, price, info):
-    self.info = info
-    self.price = price
-
-  def __str__(self):
-    return f"${self.price}\t({self.info})"
 
 def monsterax_search(query, MAX_RESULTS, STRICT_SEARCH):
   search_url = 'https://www.monsterax.com/marketplace?keywords=' + query # '&sort=-pub_closedAuctionInt%2Cpub_hasStockInt%2C-pub_currentAmount'
@@ -43,7 +34,7 @@ def monsterax_search(query, MAX_RESULTS, STRICT_SEARCH):
     
     if(STRICT_SEARCH):
       if query in curr:
-        listings.append(MonsteraxListing(curr[:num.start()-1], curr[num.start()-1:]))
+        listings.append(Listing(curr[:num.start()-1], curr[num.start()-1:]))
         
         parsed_price = locale.atof(curr[:num.start()-1])
         average_price += parsed_price
@@ -54,9 +45,9 @@ def monsterax_search(query, MAX_RESULTS, STRICT_SEARCH):
         if len(listings) > MAX_RESULTS:
           break
     else:
-      listings.append(MonsteraxListing(curr[:num.start()-1], curr[num.start()-1:]))
+      listings.append(Listing(curr[:num.start()-1], curr[num.start()-1:]))
       
-      parsed_price = float(curr[:num.start()-1]) 
+      parsed_price = locale.atof(curr[:num.start()-1]) 
       average_price += parsed_price
       if parsed_price > highest_price:
         highest_price = parsed_price
@@ -67,7 +58,8 @@ def monsterax_search(query, MAX_RESULTS, STRICT_SEARCH):
   # double check num of results
   if MAX_RESULTS > len(listings):
     MAX_RESULTS = len(listings)
-  average_price /= MAX_RESULTS
+  if MAX_RESULTS != 0:
+    average_price /= MAX_RESULTS
   
   pricesum = PriceSummary(round(average_price, 2), lowest_price, highest_price)
   return(listings, pricesum)

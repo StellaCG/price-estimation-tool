@@ -3,22 +3,10 @@ import requests
 import locale
 from datetime import datetime
 
-from pricesummary import *
+from helpers import *
 
 locale.setlocale(locale.LC_NUMERIC, 'en_US.UTF-8')
 
-
-class Listing:
-
-  def __init__(self, name, price, days):
-    self.name = name
-    self.price = price
-    self.date = days
-
-  def __str__(self):
-    return f"{self.name}\t({self.price} sold {self.date} ago)"
-
-# query = "alocasia azlanii"
 def ebay_search(query, MAX_RESULTS):
   search_url = "https://www.ebay.com/sch/i.html?_nkw=" + query + "&_Sold=1&LH_Sold=1&LH_Complete=1"
 
@@ -32,7 +20,7 @@ def ebay_search(query, MAX_RESULTS):
 
   for i in range(1, len(names)):
     listings.append(
-      Listing(
+      EbayListing(
         names[i].text, prices[i].text,
         datetime.today() -
         datetime.strptime(days_dt[i - 1].text[6:], '%b %d, %Y')))
@@ -58,8 +46,7 @@ def ebay_search(query, MAX_RESULTS):
     if parsed_price < lowest_price:
       lowest_price = parsed_price
 
-  average_price /= MAX_RESULTS
+  if MAX_RESULTS != 0:
+    average_price /= MAX_RESULTS
   pricesum = PriceSummary(round(average_price, 2), lowest_price, highest_price)
   return (listings, pricesum)
-  '''for i in range(0,MAX_RESULTS):
-    print(listings[i])'''
