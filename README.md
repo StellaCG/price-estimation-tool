@@ -1,5 +1,5 @@
 # price-estimation-tool
-this tool scrapes plant-selling sites (eBay, MonsteraX) for listings and returns price information
+this tool scrapes plant-selling sites (eBay, MonsteraX, Plantly) for listings and returns price information
 
 # details
 -for eBay, the tool will scrape sold listings in the past 60 days.<br />
