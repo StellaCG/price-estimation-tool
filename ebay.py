@@ -8,16 +8,18 @@ from helpers import *
 locale.setlocale(locale.LC_NUMERIC, 'en_US.UTF-8')
 
 def ebay_search(query, MAX_RESULTS):
+  # construct search url
   search_url = "https://www.ebay.com/sch/i.html?_nkw=" + query + "&_Sold=1&LH_Sold=1&LH_Complete=1"
-
   response = requests.get(search_url)
   soup = bs(response.text, 'html.parser')
 
+  # scrape listings
   listings = []
   names = soup.select('.s-item__title span[role="heading"]')
   prices = soup.select('.s-item__detail--primary span[class="s-item__price"]')
   days_dt = soup.select('.s-item__title--tag span[class="POSITIVE"]')
 
+  # populate list of listings
   for i in range(1, len(names)):
     listings.append(
       EbayListing(

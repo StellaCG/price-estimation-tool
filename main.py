@@ -2,12 +2,9 @@ from ebay import *
 from monsterax import *
 from plantly import *
 from helpers import *
-# from matplotlib import pyplot as plt
 
 # todo: weigh plantly as 30% of average if only returns
 # one listing
-
-# removed graphing for now
 
 def main():
   query = input("Enter a search term: ")
@@ -16,11 +13,13 @@ def main():
   r1 = numresults
   r2 = numresults
   r3 = numresults
-  
+
+  # perform searches
   ebay_results = ebay_search(query, numresults)
   monsterax_results = monsterax_search(query, numresults, strict_search)
   plantly_results = plantly_search(query, numresults)
-  
+
+  # verify number of results
   if numresults > len(ebay_results[0]):
     r1 = len(ebay_results[0])
   if numresults > len(monsterax_results[0]):
@@ -28,6 +27,7 @@ def main():
   if numresults > len(plantly_results[0]):
     r3 = len(plantly_results[0])
 
+  # print results
   print("eBay results:\n")
   print_results(ebay_results, r1)
 
@@ -46,14 +46,3 @@ def main():
 
 if __name__ == "__main__":
   main()
-
-
-
-'''plt.scatter([i for i in range(1, numresults+1)], [float(l.price[1:]) for l in results[0][:numresults]])
-  price_over_time = []
-  for i in range(numresults+1):
-    price_over_time.append([results[0][i].date.days, float(results[0][i].price[1:])])
-
-  plt.plot([p[0] for p in price_over_time], [p[1] for p in price_over_time])
-  # plt.plot([d.date.days for d in results[0][:numresults]], [float(l.price[1:]) for l in results[0][:numresults]])
-  plt.show()'''

@@ -1,3 +1,5 @@
+# classes and methods used by most/all other files
+
 class PriceSummary:
 
   def __init__(self, avg, min, max):
