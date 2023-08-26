@@ -10,8 +10,8 @@ from helpers import *
 # removed graphing for now
 
 def main():
-  query = 'thai constellation' # input("Enter a search term: ")
-  numresults = 20 # int(input("\nHow many results: "))
+  query = input("Enter a search term: ")
+  numresults = int(input("\nHow many results: "))
   strict_search = True
   r1 = numresults
   r2 = numresults
